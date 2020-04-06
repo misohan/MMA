@@ -1,11 +1,12 @@
 package codecool.mma;
 
 public class Product {
-    private int ProductID;
+    private int productID;
+    private String title;
     private String brand;
     private String model;
     private String type;
     private int price;
-    private int size;
+    private int productSize;
     private boolean availability;
 }
