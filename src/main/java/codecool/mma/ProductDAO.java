@@ -10,9 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.sql.Statement;
-import java.util.List;
 
-public class Product {
+public class ProductDAO {
     private int ID;
     private String title;
     private String brand;
@@ -22,13 +21,13 @@ public class Product {
     private int productSize;
     private boolean availability;
 
-    public Product getProductByStatement(String attribute, String attributeValue) {
+    public ProductDAO getProductByStatement(String attribute, String attributeValue) {
         String url = "jdbc:postgresql://localhost:5432/MMAdata";
         String user = "MMA";
         String password = "mma123";
         String getAttribute = null;
 
-        Product product = new Product();
+        ProductDAO product = new ProductDAO();
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products WHERE " + attribute + "=" + attributeValue + ";");
@@ -50,18 +49,18 @@ public class Product {
             }
         } catch (SQLException ex) {
 
-            Logger lgr = Logger.getLogger(Product.class.getName());
+            Logger lgr = Logger.getLogger(ProductDAO.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return product;
 
     }
 
-    public ArrayList<Product> getAllProducts() {
+    public ArrayList<ProductDAO> getAllProducts() {
         String url = "jdbc:postgresql://localhost:5432/MMAdata";
         String user = "MMA";
         String password = "mma123";
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<ProductDAO> products = new ArrayList<>();
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products;");
@@ -70,7 +69,7 @@ public class Product {
 
             while (rs.next()) {
 
-                Product product = new Product();
+                ProductDAO product = new ProductDAO();
                 product.setID(rs.getInt("id"));
                 product.setTitle(rs.getString("title"));
                 product.setBrand(rs.getString("brand"));
@@ -85,7 +84,7 @@ public class Product {
 
         } catch (SQLException ex) {
 
-            Logger lgr = Logger.getLogger(Product.class.getName());
+            Logger lgr = Logger.getLogger(ProductDAO.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return products;
@@ -98,6 +97,31 @@ public class Product {
         String comma = "', '";
 
         String statement = "INSERT INTO products VALUES (" +ID + ", '" + title + comma + brand + comma + model + comma + type + comma + price + comma + productSize + "'," + availability + ");";
+
+        try {Connection con = DriverManager.getConnection(url, user, password);
+            Statement st = con.createStatement();
+            st.executeUpdate(statement);
+
+        } catch (SQLException e) {
+        }
+    }
+    public void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability){
+        String url = "jdbc:postgresql://localhost:5432/MMAdata";
+        String user = "MMA";
+        String password = "mma123";
+
+        String comma = "'";
+
+        String statement = "UPDATE products SET ID = "
+                + ID + ", title= '"
+                + title + comma + ", brand= '"
+                + brand + comma +", model= '"
+                + model + comma +", type= '"
+                + type + comma +", price= "
+                + price + ", productSize= "
+                + productSize + ", availability= "
+                + availability + " WHERE ID= "
+                + ID +";";
 
         System.out.println(statement);
 
