@@ -33,7 +33,7 @@ public class ProductDAO implements IProductDAO {
                 product.setPrice(rs.getInt("productSize"));
                 product.setAvailability(rs.getBoolean("availability"));
 
-
+                con.close();
             }
         } catch (SQLException ex) {
 
@@ -62,8 +62,8 @@ public class ProductDAO implements IProductDAO {
                 product.setAvailability(rs.getBoolean("availability"));
                 products.add(product);
 
+                con.close();
             }
-
         } catch (SQLException ex) {
 
             Logger lgr = Logger.getLogger(ProductDAO.class.getName());
@@ -92,6 +92,7 @@ public class ProductDAO implements IProductDAO {
 
             // update
             pst.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -119,12 +120,27 @@ public class ProductDAO implements IProductDAO {
 
             // update
             pst.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    public void removeProduct(int ID){
+    public void removeProductByID(int ID){
+        String sql = "DELETE from products WHERE ID= ?";
 
+        try (Connection con = dbConn.connect();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            // set the corresponding parameter
+
+            pst.setInt(1, ID);
+
+            // update
+            pst.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public Product getProduct() {
