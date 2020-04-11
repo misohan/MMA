@@ -9,25 +9,17 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java.sql.Statement;
 
-public class ProductDAO {
-    private int ID;
-    private String title;
-    private String brand;
-    private String model;
-    private String type;
-    private int price;
-    private int productSize;
-    private boolean availability;
+public class ProductDAO implements IProductDAO {
+    Product product;
+    ArrayList<Product> products = new ArrayList<Product>();
 
-    public ProductDAO getProductByStatement(String attribute, String attributeValue) {
+    public Product getProductByStatement(String attribute, String attributeValue) {
         String url = "jdbc:postgresql://localhost:5432/MMAdata";
         String user = "MMA";
         String password = "mma123";
         String getAttribute = null;
 
-        ProductDAO product = new ProductDAO();
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products WHERE " + attribute + "=" + attributeValue + ";");
@@ -56,11 +48,10 @@ public class ProductDAO {
 
     }
 
-    public ArrayList<ProductDAO> getAllProducts() {
+    public ArrayList<Product> getAllProducts() {
         String url = "jdbc:postgresql://localhost:5432/MMAdata";
         String user = "MMA";
         String password = "mma123";
-        ArrayList<ProductDAO> products = new ArrayList<>();
 
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products;");
@@ -69,7 +60,7 @@ public class ProductDAO {
 
             while (rs.next()) {
 
-                ProductDAO product = new ProductDAO();
+                Product product = new Product();
                 product.setID(rs.getInt("id"));
                 product.setTitle(rs.getString("title"));
                 product.setBrand(rs.getString("brand"));
@@ -94,110 +85,66 @@ public class ProductDAO {
         String user = "MMA";
         String password = "mma123";
 
-        String comma = "', '";
+        String sql = "INSERT INTO products (ID, title, brand, model, type, price, productSize, availability) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        String statement = "INSERT INTO products VALUES (" +ID + ", '" + title + comma + brand + comma + model + comma + type + comma + price + comma + productSize + "'," + availability + ");";
+        System.out.println(sql);
 
-        try {Connection con = DriverManager.getConnection(url, user, password);
-            Statement st = con.createStatement();
-            st.executeUpdate(statement);
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(sql)) {
 
+            // set the corresponding parameter
+
+            pst.setInt(1, ID);
+            pst.setString(2, title);
+            pst.setString(3, brand);
+            pst.setString(4,model);
+            pst.setString(5,type);
+            pst.setInt(6,price);
+            pst.setInt(7,productSize);
+            pst.setBoolean(8,availability);
+
+            // update
+            pst.executeUpdate();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
-    public void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability){
+    public void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability) {
         String url = "jdbc:postgresql://localhost:5432/MMAdata";
         String user = "MMA";
         String password = "mma123";
 
-        String comma = "'";
+        String sql = "UPDATE products "
+                + "SET title= ?, brand= ?, model= ?, type= ?, price= ?, productSize= ?, availability = ? "
+                + "WHERE ID = ?";
+        System.out.println(sql);
 
-        String statement = "UPDATE products SET ID = "
-                + ID + ", title= '"
-                + title + comma + ", brand= '"
-                + brand + comma +", model= '"
-                + model + comma +", type= '"
-                + type + comma +", price= "
-                + price + ", productSize= "
-                + productSize + ", availability= "
-                + availability + " WHERE ID= "
-                + ID +";";
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(sql)) {
 
-        System.out.println(statement);
+            // set the corresponding param
 
-        try {Connection con = DriverManager.getConnection(url, user, password);
-            Statement st = con.createStatement();
-            st.executeUpdate(statement);
+            pst.setString(1, title);
+            pst.setString(2, brand);
+            pst.setString(3, model);
+            pst.setString(4, type);
+            pst.setInt(5, price);
+            pst.setInt(6, productSize);
+            pst.setBoolean(7, availability);
+            pst.setInt(8, ID);
+            pst.executeUpdate();
 
+            // update
+            pst.executeUpdate();
         } catch (SQLException e) {
+//            System.out.println(e.getMessage());
         }
     }
+    public void removeProduct(int ID){
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getProductSize() {
-        return productSize;
-    }
-
-    public void setProductSize(int productSize) {
-        this.productSize = productSize;
-    }
-
-    public boolean getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
     }
 }
-
 
 
 

@@ -1,10 +1,12 @@
 package codecool.mma;
 
+import java.util.ArrayList;
+
 public interface IProductDAO {
-    Product getProduct();
-    void updateProduct(Product product);
-    void removeProduct(Product product);
-    void createProduct(Product porduct);
+    ArrayList<Product> getAllProducts();
+    void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability);
+    void createProduct(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability);
+//    void removeProduct(ProductDAO product);
 
 
 }
