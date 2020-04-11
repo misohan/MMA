@@ -6,7 +6,7 @@ public interface IProductDAO {
     ArrayList<Product> getAllProducts();
     void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability);
     void createProduct(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability);
-//    void removeProduct(ProductDAO product);
+    void removeProductByID(int ID);
 
 
 }
