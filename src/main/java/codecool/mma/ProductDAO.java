@@ -1,7 +1,7 @@
 package codecool.mma;
 
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,21 +10,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+
 public class ProductDAO implements IProductDAO {
-    Product product;
-    ArrayList<Product> products = new ArrayList<Product>();
+    private Product product;
+    private ArrayList<Product> products = new ArrayList<>();
+    private ProductSQLConn dbConn = new ProductSQLConn();
+
 
     public Product getProductByStatement(String attribute, String attributeValue) {
-        String url = "jdbc:postgresql://localhost:5432/MMAdata";
-        String user = "MMA";
-        String password = "mma123";
-        String getAttribute = null;
-
-
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = dbConn.connect() ;
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products WHERE " + attribute + "=" + attributeValue + ";");
              ResultSet rs = pst.executeQuery()) {
-
 
             while (rs.next()) {
 
@@ -45,15 +41,10 @@ public class ProductDAO implements IProductDAO {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return product;
-
     }
 
     public ArrayList<Product> getAllProducts() {
-        String url = "jdbc:postgresql://localhost:5432/MMAdata";
-        String user = "MMA";
-        String password = "mma123";
-
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = dbConn.connect();
              PreparedStatement pst = con.prepareStatement("SELECT * FROM products;");
              ResultSet rs = pst.executeQuery()) {
 
@@ -81,16 +72,11 @@ public class ProductDAO implements IProductDAO {
         return products;
     }
     public void createProduct(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability){
-        String url = "jdbc:postgresql://localhost:5432/MMAdata";
-        String user = "MMA";
-        String password = "mma123";
 
         String sql = "INSERT INTO products (ID, title, brand, model, type, price, productSize, availability) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        System.out.println(sql);
-
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = dbConn.connect();
              PreparedStatement pst = con.prepareStatement(sql)) {
 
             // set the corresponding parameter
@@ -111,16 +97,12 @@ public class ProductDAO implements IProductDAO {
         }
     }
     public void updateProductByID(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability) {
-        String url = "jdbc:postgresql://localhost:5432/MMAdata";
-        String user = "MMA";
-        String password = "mma123";
 
         String sql = "UPDATE products "
                 + "SET title= ?, brand= ?, model= ?, type= ?, price= ?, productSize= ?, availability = ? "
                 + "WHERE ID = ?";
-        System.out.println(sql);
 
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = dbConn.connect();
              PreparedStatement pst = con.prepareStatement(sql)) {
 
             // set the corresponding param
@@ -138,11 +120,27 @@ public class ProductDAO implements IProductDAO {
             // update
             pst.executeUpdate();
         } catch (SQLException e) {
-//            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     public void removeProduct(int ID){
 
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 }
 
