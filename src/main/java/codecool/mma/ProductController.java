@@ -56,7 +56,7 @@ public class ProductController extends ProductDAO {
         return sortedProducts;
     }
 
-    public void displayProductSimple(Product product){
+    public void viewProduct(Product product){
         System.out.println("=================");
         System.out.println(product.getTitle());
         System.out.println(product.getBrand());
@@ -67,9 +67,9 @@ public class ProductController extends ProductDAO {
         System.out.println(product.getAvailability());
         System.out.println("=================");
     }
-    public void displayAllProducts(ArrayList<Product> allProducts){
+    public void viewAllProducts(ArrayList<Product> allProducts){
         for (Product product: allProducts){
-            displayProductSimple(product);
+            viewProduct(product);
         }
     }
 }
