@@ -1,6 +1,5 @@
 package codecool.mma;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,22 +8,21 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 public class ProductDAO implements IProductDAO {
-    private Product product;
+
     private ArrayList<Product> products = new ArrayList<>();
     private ProductSQLConn dbConn = new ProductSQLConn();
 
 
-    public Product getProductByStatement(String attribute, String attributeValue) {
+    public Product readProductByID(int ID) {
+        Product product = new Product();
+
         try (Connection con = dbConn.connect() ;
-             PreparedStatement pst = con.prepareStatement("SELECT * FROM products WHERE " + attribute + "=" + attributeValue + ";");
+             PreparedStatement pst = con.prepareStatement("SELECT * FROM products WHERE ID = " + ID);
              ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
 
-                product.setID(rs.getInt("id"));
                 product.setTitle(rs.getString("title"));
                 product.setBrand(rs.getString("brand"));
                 product.setModel(rs.getString("model"));
@@ -32,6 +30,7 @@ public class ProductDAO implements IProductDAO {
                 product.setProductSize(rs.getInt("productSize"));
                 product.setPrice(rs.getInt("productSize"));
                 product.setAvailability(rs.getBoolean("availability"));
+                product.setID(rs.getInt("id"));
 
                 con.close();
             }
@@ -57,10 +56,10 @@ public class ProductDAO implements IProductDAO {
                 product.setBrand(rs.getString("brand"));
                 product.setModel(rs.getString("model"));
                 product.setType(rs.getString("type"));
+                product.setPrice(rs.getInt("price"));
                 product.setProductSize(rs.getInt("productSize"));
-                product.setPrice(rs.getInt("productSize"));
                 product.setAvailability(rs.getBoolean("availability"));
-                products.add(product);
+                this.products.add(product);
 
                 con.close();
             }
@@ -69,7 +68,7 @@ public class ProductDAO implements IProductDAO {
             Logger lgr = Logger.getLogger(ProductDAO.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-        return products;
+        return this.products;
     }
     public void createProduct(int ID, String title, String brand, String model, String type, int price, int productSize, boolean availability){
 
@@ -143,21 +142,6 @@ public class ProductDAO implements IProductDAO {
         }
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
 }
 
 
