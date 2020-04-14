@@ -7,6 +7,8 @@ public class Main {
         Product productByID = new Product();
         ProductController newProductCon = new ProductController();
 
+        newProductCon.viewAllProducts(newProduct.getAllProducts());
+
 
     }
 }
