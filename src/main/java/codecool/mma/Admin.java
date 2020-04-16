@@ -3,17 +3,19 @@ package codecool.mma;
 public class Admin {
 
 
-    private String name;
-    private String phoneNumber;
-    private String email;
 
-    public Admin(String name, String phoneNumber, String email) {
+    private String name = "MMA Shoe Store";
+    private String phoneNumber = "+48 800 300 200";
+    private String email = "mma@mma.com";
+
+
+    public Admin() {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
-    private Admin admin = new Admin(name, phoneNumber, email) {};
+    //public Admin admin = new Admin();
 
         public String getName() {
             return name;
@@ -26,6 +28,8 @@ public class Admin {
         public String getEmail() {
             return email;
         }
+
+
 
 }
 
