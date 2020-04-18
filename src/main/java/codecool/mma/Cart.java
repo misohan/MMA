@@ -14,11 +14,12 @@ public class Cart{
     }
 
     public void addCartItemToCart(Product product, int quantity){
+        String productName = product.getTitle();
         int productId = product.getID();
         int price = product.getPrice();
 
         this.total += price*quantity;
-        CartItem newCartItem = new CartItem(productId,quantity, price);
+        CartItem newCartItem = new CartItem(productName, productId,quantity, price);
 
        this.cartItems.add(newCartItem);
     }
@@ -30,11 +31,26 @@ public class Cart{
 
             CartItem cartItem = cartItems.get(i);
 
+
+
             if(cartItem.getProductID() == product.getID()){
-                cartItems.remove(cartItem);
-                System.out.println("Match");
+
+                int totalPrice = this.total;
+                cart.setTotal(totalPrice - product.getPrice()*quantity);
+
+                int currentProductQuantity = cartItem.getQuantity();
+
+                System.out.println("CurrentProduct Quantity: " + currentProductQuantity);
+
+                cartItem.setQuantity(currentProductQuantity-quantity);
+
+                int cartItemTotalPrice = cartItem.getPrice();
+
+                if(cartItemTotalPrice == 0){
+                    cartItems.remove(cartItem);
+                    System.out.println("Product removed");
+                }
             }
-//            System.out.println("No such product in your Cart");
         }
     }
 
