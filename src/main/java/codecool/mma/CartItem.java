@@ -3,14 +3,24 @@ package codecool.mma;
 import java.util.HashMap;
 
 public class CartItem {
+    private String productName;
     private int productID;
     private int quantity;
     private int price;
 
-    public CartItem(int productID, int quantity, int price) {
+    public CartItem(String productName, int productID, int quantity, int price) {
+        this.productName = productName;
         this.productID = productID;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getProductID() {
