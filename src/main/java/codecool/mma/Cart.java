@@ -17,19 +17,24 @@ public class Cart{
         int productId = product.getID();
         int price = product.getPrice();
 
-        System.out.println("price" + price);
-
         this.total += price;
         CartItem newCartItem = new CartItem(productId,quantity, price);
 
        this.cartItems.add(newCartItem);
     }
-    public void removeCartItemFromCart(Product product, int quantity){
-        for(CartItem cartItem: this.cartItems){
+    public void removeCartItemFromCart(Product product, int quantity, Cart cart){
+        ArrayList<CartItem> cartItems = cart.getCartItems();
+
+
+        for(int i =0; i<cartItems.size(); i++ ){
+
+            CartItem cartItem = cartItems.get(i);
+
             if(cartItem.getProductID() == product.getID()){
                 cartItems.remove(cartItem);
+                System.out.println("Match");
             }
-            System.out.println("No such product in your Cart");
+//            System.out.println("No such product in your Cart");
         }
     }
 
