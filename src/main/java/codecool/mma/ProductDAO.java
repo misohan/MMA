@@ -27,10 +27,11 @@ public class ProductDAO implements IProductDAO {
                 product.setBrand(rs.getString("brand"));
                 product.setModel(rs.getString("model"));
                 product.setType(rs.getString("type"));
+                product.setPrice(rs.getInt("price"));
                 product.setProductSize(rs.getInt("productSize"));
-                product.setPrice(rs.getInt("productSize"));
                 product.setAvailability(rs.getBoolean("availability"));
                 product.setID(rs.getInt("id"));
+
 
                 con.close();
             }
