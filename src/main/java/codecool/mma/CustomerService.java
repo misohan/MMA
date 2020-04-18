@@ -66,9 +66,8 @@ public class CustomerService {
         System.out.println("How many of this product you want to remove?");
 
         int userInputQuantity = scanner.nextInt(); //ask user how many items
-        cart.removeCartItemFromCart(product, userInputQuantity, cart);
 
-        cart.addCartItemToCart(product, userInputQuantity); //remove item
+        cart.removeCartItemFromCart(product, userInputQuantity, cart); //remove item
 
 
 
@@ -89,7 +88,8 @@ public class CustomerService {
 
         userController.updateUserEmail(userInputEmail, userInputID);
     }
-    public void customersOptions(Cart cart, ProductDAO productDAO){
+    public void customersOptions(ProductDAO productDAO){
+        Cart cart = new Cart(false);
 
         boolean quit = false;
         while(!quit) {
