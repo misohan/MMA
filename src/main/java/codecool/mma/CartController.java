@@ -21,6 +21,7 @@ public class CartController  {
     }
     public void viewCartItem(CartItem cartItem){
         System.out.println("**Your product**");
+        System.out.println("");
         System.out.println("ProductID: " +cartItem.getProductID());
         System.out.println("Price: " + cartItem.getPrice());
         System.out.println("Quantity: " + cartItem.getQuantity());
