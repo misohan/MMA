@@ -1,4 +1,3 @@
-
 package codecool.mma;
 
 public class Order {
@@ -38,3 +37,4 @@ public class Order {
         this.shippingMethod = shippingMethod;
     }
 }
+
