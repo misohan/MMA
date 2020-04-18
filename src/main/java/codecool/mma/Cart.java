@@ -17,7 +17,7 @@ public class Cart{
         int productId = product.getID();
         int price = product.getPrice();
 
-        this.total += price;
+        this.total += price*quantity;
         CartItem newCartItem = new CartItem(productId,quantity, price);
 
        this.cartItems.add(newCartItem);
