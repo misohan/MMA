@@ -7,10 +7,10 @@ import java.util.Collections;
 public class ProductController extends ProductDAO {
 
 
-    @Override
-    public ArrayList<Product> getAllProducts() {
-        return super.getAllProducts();
-    }
+//    @Override
+//    public ArrayList<Product> getAllProducts() {
+//        return super.getAllProducts();
+//    }
     public ArrayList<Product> sortProductsByPriceAsc(){
         ArrayList<Product> allProducts = getAllProducts();
         ArrayList<Integer> sortedPrices = new ArrayList<>();
@@ -58,13 +58,14 @@ public class ProductController extends ProductDAO {
 
     public void viewProduct(Product product){
         System.out.println("=================");
-        System.out.println(product.getTitle());
-        System.out.println(product.getBrand());
-        System.out.println(product.getModel());
-        System.out.println(product.getType());
-        System.out.println(product.getPrice());
-        System.out.println(product.getProductSize());
-        System.out.println(product.getAvailability());
+        System.out.println("Product ID: " + product.getID());
+        System.out.println("Name: " + product.getTitle());
+        System.out.println("Brand: " + product.getBrand());
+        System.out.println("Model: " + product.getModel());
+        System.out.println("Type: " + product.getType());
+        System.out.println("Price: " + product.getPrice());
+        System.out.println("Price: " + product.getProductSize());
+        System.out.println("Availability: " + product.getAvailability());
         System.out.println("=================");
     }
     public void viewAllProducts(ArrayList<Product> allProducts){
