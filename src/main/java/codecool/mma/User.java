@@ -9,15 +9,16 @@ public class User {
     private String email;
     private Boolean loginStatus;
 
-    public User(int userId, String name, String surname,
+    public User(String name, String surname,
                 String password, String email, Boolean loginStatus) {
-        this.userId = userId;
+        //this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.email = email;
         this.loginStatus = loginStatus;
     }
+
 
     public int getUserId() {
         return userId;
@@ -43,4 +44,27 @@ public class User {
         return loginStatus;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setLoginStatus(Boolean loginStatus) {
+        this.loginStatus = loginStatus;
+    }
 }
