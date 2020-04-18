@@ -8,14 +8,24 @@ public class Main {
         CartController cartController = new CartController();
         Product product1 = productDAO.readProductByID(2);
 
-        Cart newCart = new Cart(true);
+        UserController userController = new UserController();
 
-        newCart.addCartItemToCart(product,5);
-        newCart.addCartItemToCart(product1,7);
-        newCart.addCartItemToCart(product, 5);
+        Admin admin = new Admin();
+
+//        userController.getAllUsers();
+
+        OrderDAO orderDAO = new OrderDAO();
+
+        orderDAO.readOrderByID(1);
+
+        Order order = orderDAO.readOrderByID(1);
 
 
-        cartController.checkCartSummary(newCart);
+        OrderController orderController = new OrderController();
+
+        orderController.showOrder(order);
+
+
 
 
 

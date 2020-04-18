@@ -75,7 +75,7 @@ public class OrderDAO implements IOrderDAO {
     }
 
     public void updateOrderByID(int orderID, int userID, String paymentMethod, String shippingMethod) {
-        String sql = "UPDATE order" + "SET paymentMethod = ?, shippingMethod + WHERE ID = ?";
+        String sql = "UPDATE order" + "SET paymentMethod = ?, shippingMethod =? WHERE ID = ?";
         try (Connection con = dbConn.connect();
              PreparedStatement pst = con.prepareStatement(sql)) {
              pst.setString(1, paymentMethod);
