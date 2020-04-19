@@ -8,6 +8,7 @@ public class ServiceController {
     Scanner in = new Scanner(System.in);
     private int adminOptionSelected;
     AdminController adminController = new AdminController();
+    CustomerService customerService = new CustomerService();
     //ServiceController serviceController = new ServiceController();
 
     public void sayHello() {
@@ -21,7 +22,8 @@ public class ServiceController {
 
         if (optionSelected.equals("u")) {
             System.out.println("Welcome, user!");
-            //here to put interface for user
+            ProductDAO productDAO = new ProductDAO();
+            customerService.customersOptions(productDAO);
         } else if (optionSelected.equals("a")) {
             System.out.println("Welcome, admin!");
             adminOptions();
