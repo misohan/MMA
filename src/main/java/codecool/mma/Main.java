@@ -1,29 +1,30 @@
 package codecool.mma;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
+        CustomerService customerService = new CustomerService();
         ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.readProductByID(1);
-        CartController cartController = new CartController();
-        Product product1 = productDAO.readProductByID(2);
-
         UserController userController = new UserController();
 
         Admin admin = new Admin();
 
-//        userController.getAllUsers();
-
-        OrderDAO orderDAO = new OrderDAO();
-
-        orderDAO.readOrderByID(1);
-
-        Order order = orderDAO.readOrderByID(1);
+        ServiceController serviceController = new ServiceController();
+        serviceController.sayHello();
+        serviceController.selectUserOrAdmin();
+        serviceController.adminOptions();
 
 
-        OrderController orderController = new OrderController();
+        customerService.customersOptions(productDAO);
 
-        orderController.showOrder(order);
+
+
+
+
+
+
 
 
 
