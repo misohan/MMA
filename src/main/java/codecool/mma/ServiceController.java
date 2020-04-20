@@ -3,13 +3,16 @@ package codecool.mma;
 import java.util.Scanner;
 
 public class ServiceController {
-    //    whole application should be here
 
-    Scanner in = new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
     private int adminOptionSelected;
-    AdminController adminController = new AdminController();
-    CustomerService customerService = new CustomerService();
-    //ServiceController serviceController = new ServiceController();
+    private AdminController adminController;
+    private CustomerService customerService;
+
+    public ServiceController(ProductDAO productDAO, UserDAO userDAO) {
+        this.adminController = new AdminController(userDAO);
+        this.customerService = new CustomerService(productDAO);
+    }
 
     public void sayHello() {
         System.out.println("================= MMA Shoe Store =================\n");
@@ -19,11 +22,9 @@ public class ServiceController {
         System.out.println("Please select 'u' for user or 'a' for admin");
 
         String optionSelected = in.nextLine();
-
         if (optionSelected.equals("u")) {
             System.out.println("Welcome, user!");
-            ProductDAO productDAO = new ProductDAO();
-            customerService.customersOptions(productDAO);
+            customerService.customersOptions();
         } else if (optionSelected.equals("a")) {
             System.out.println("Welcome, admin!");
             adminOptions();

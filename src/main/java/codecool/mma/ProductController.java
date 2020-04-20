@@ -3,29 +3,31 @@ package codecool.mma;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-public class ProductController extends ProductDAO {
+public class ProductController {
 
+    private ProductDAO productDAO;
 
-//    @Override
-//    public ArrayList<Product> getAllProducts() {
-//        return super.getAllProducts();
-//    }
-    public ArrayList<Product> sortProductsByPriceAsc(){
-        ArrayList<Product> allProducts = getAllProducts();
-        ArrayList<Integer> sortedPrices = new ArrayList<>();
+    public ProductController(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
-        for(Product product: allProducts){
+    public List<Product> sortProductsByPriceAsc() {
+        List<Product> allProducts = productDAO.getAllProducts();
+        List<Integer> sortedPrices = new ArrayList<>();
+
+        for (Product product : allProducts) {
             sortedPrices.add(product.getPrice());
         }
         Collections.sort(sortedPrices);
 
         ArrayList<Product> sortedProducts = new ArrayList<Product>();
 
-        while (sortedProducts.size()<sortedPrices.size()){
-            for(Integer sortedPrice: sortedPrices){
-                for(Product product: allProducts){
-                    if (sortedPrice == product.getPrice()){
+        while (sortedProducts.size() < sortedPrices.size()) {
+            for (Integer sortedPrice : sortedPrices) {
+                for (Product product : allProducts) {
+                    if (sortedPrice == product.getPrice()) {
                         sortedProducts.add(product);
                     }
                 }
@@ -33,21 +35,22 @@ public class ProductController extends ProductDAO {
         }
         return sortedProducts;
     }
-    public ArrayList<Product> sortProductsByPriceDsc(){
-        ArrayList<Product> allProductsDsc = getAllProducts();
-        ArrayList<Integer> sortedPrices = new ArrayList<>();
 
-        for(Product product: allProductsDsc){
+    public List<Product> sortProductsByPriceDsc() {
+        List<Product> allProductsDsc = productDAO.getAllProducts();
+        List<Integer> sortedPrices = new ArrayList<>();
+
+        for (Product product : allProductsDsc) {
             sortedPrices.add(product.getPrice());
         }
         Collections.sort(sortedPrices, Collections.reverseOrder());
 
-        ArrayList<Product> sortedProducts = new ArrayList<Product>();
+        List<Product> sortedProducts = new ArrayList<Product>();
 
-        while (sortedProducts.size()<sortedPrices.size()){
-            for(Integer sortedPrice: sortedPrices){
-                for(Product product: allProductsDsc){
-                    if (sortedPrice == product.getPrice()){
+        while (sortedProducts.size() < sortedPrices.size()) {
+            for (Integer sortedPrice : sortedPrices) {
+                for (Product product : allProductsDsc) {
+                    if (sortedPrice == product.getPrice()) {
                         sortedProducts.add(product);
                     }
                 }
@@ -56,7 +59,7 @@ public class ProductController extends ProductDAO {
         return sortedProducts;
     }
 
-    public void viewProduct(Product product){
+    public void viewProduct(Product product) {
         System.out.println("=================");
         System.out.println("Product ID: " + product.getID());
         System.out.println("Name: " + product.getTitle());
@@ -68,8 +71,10 @@ public class ProductController extends ProductDAO {
         System.out.println("Availability: " + product.getAvailability());
         System.out.println("=================");
     }
-    public void viewAllProducts(ArrayList<Product> allProducts){
-        for (Product product: allProducts){
+
+    public void viewAllProducts() {
+        List<Product> allProducts = productDAO.getAllProducts();
+        for (Product product : allProducts) {
             viewProduct(product);
         }
     }

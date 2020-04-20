@@ -6,14 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 
-
-public class UserController implements UserDAO {
+public class UserJDBCDAO implements UserDAO {
 
     private UserSQLConnection dbConn = new UserSQLConnection();
     PreparedStatement ptmt = null;
     ResultSet resultSet = null;
 
-    public UserController() {
+    public UserJDBCDAO() {
     }
 
     //UserController userController = new UserController();
@@ -22,17 +21,17 @@ public class UserController implements UserDAO {
 
         String sql = "SELECT * FROM users WHERE UserId=?";
 
-        try
-                (Connection con = dbConn.connect();
-                 PreparedStatement ptmt = con.prepareStatement(sql)) {
+        try {
+            Connection con = dbConn.connect();
+            PreparedStatement ptmt = con.prepareStatement(sql);
             ptmt.setInt(1, userId);
             resultSet = ptmt.executeQuery();
 
             if (resultSet.next()) {
 
-               System.out.println("Name: " + resultSet.getString("name")
+                System.out.println("Name: " + resultSet.getString("name")
                         + "\nSurname: " + resultSet.getString("surname")
-               +"\nEmail: " + resultSet.getString("email"));
+                        + "\nEmail: " + resultSet.getString("email"));
             }
             resultSet.close();
 
@@ -89,7 +88,7 @@ public class UserController implements UserDAO {
         }
     }
 
-        public void createUser(User user) {
+    public void createUser(User user) {
 
         String sql = "INSERT INTO users (name, surname, password, email, loginStatus) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -131,23 +130,23 @@ public class UserController implements UserDAO {
 
     public void getAllUsers() {
 
-            String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM users";
 
-            try
-                    (Connection con = dbConn.connect();
-                     PreparedStatement ptmt = con.prepareStatement(sql)) {
-                resultSet = ptmt.executeQuery();
-                while (resultSet.next()) {
-                    System.out.println("Id: " + resultSet.getInt("userId")
-                            + ", Name: " + resultSet.getString("name") + ", Surname: "
-                            + resultSet.getString("surname") + ", Email Address: "
-                            + resultSet.getString("email"));
+        try
+                (Connection con = dbConn.connect();
+                 PreparedStatement ptmt = con.prepareStatement(sql)) {
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next()) {
+                System.out.println("Id: " + resultSet.getInt("userId")
+                        + ", Name: " + resultSet.getString("name") + ", Surname: "
+                        + resultSet.getString("surname") + ", Email Address: "
+                        + resultSet.getString("email"));
 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            }
+    }
 
     public void LogInLogOut(User user) {
 

@@ -1,32 +1,14 @@
 package codecool.mma;
 
-import java.util.ArrayList;
-
 public class Main {
     public static void main(String[] args) {
+        ProductDAO productDAO = new ProductJDBCDAO();
+        UserDAO userDAO = new UserJDBCDAO();
 
-        ServiceController serviceController = new ServiceController();
+
+        ServiceController serviceController = new ServiceController(productDAO, userDAO);
         serviceController.sayHello();
         serviceController.selectUserOrAdmin();
         serviceController.adminOptions();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

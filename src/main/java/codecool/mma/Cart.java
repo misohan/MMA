@@ -1,9 +1,11 @@
 package codecool.mma;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Cart{
+public class Cart {
     private ArrayList<CartItem> cartItems;
+    private List<Product> products;
     private int total;
     private boolean checkCart;
 
@@ -13,40 +15,37 @@ public class Cart{
         this.checkCart = checkCart;
     }
 
-    public void addCartItemToCart(Product product, int quantity){
+    public void addCartItemToCart(Product product, int quantity) {
         String productName = product.getTitle();
         int productId = product.getID();
         int price = product.getPrice();
 
-        this.total += price*quantity;
-        CartItem newCartItem = new CartItem(productName, productId,quantity, price);
+        this.total += price * quantity;
+        CartItem newCartItem = new CartItem(productName, productId, quantity, price);
 
-       this.cartItems.add(newCartItem);
+        this.cartItems.add(newCartItem);
     }
-    public void removeCartItemFromCart(Product product, int quantity, Cart cart){
+
+    public void removeCartItemFromCart(Product product, int quantity, Cart cart) {
         ArrayList<CartItem> cartItems = cart.getCartItems();
 
-
-        for(int i =0; i<cartItems.size(); i++ ){
-
+        for (int i = 0; i < cartItems.size(); i++) {
             CartItem cartItem = cartItems.get(i);
 
-
-
-            if(cartItem.getProductID() == product.getID()){
+            if (cartItem.getProductID() == product.getID()) {
 
                 int totalPrice = this.total;
-                cart.setTotal(totalPrice - product.getPrice()*quantity);
+                cart.setTotal(totalPrice - product.getPrice() * quantity);
 
                 int currentProductQuantity = cartItem.getQuantity();
 
                 System.out.println("CurrentProduct Quantity: " + currentProductQuantity);
 
-                cartItem.setQuantity(currentProductQuantity-quantity);
+                cartItem.setQuantity(currentProductQuantity - quantity);
 
                 int cartItemTotalPrice = cartItem.getPrice();
 
-                if(cartItemTotalPrice == 0){
+                if (cartItemTotalPrice == 0) {
                     cartItems.remove(cartItem);
                     System.out.println("Product removed");
                 }

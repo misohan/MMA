@@ -25,7 +25,7 @@ public class ProductSQLConn {
 
             props.load(bf);
         } catch (IOException ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(
+            Logger.getLogger(ProductJDBCDAO.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
 

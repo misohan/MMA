@@ -1,7 +1,5 @@
 package codecool.mma;
 
-import java.util.HashMap;
-
 public class CartItem {
     private String productName;
     private int productID;

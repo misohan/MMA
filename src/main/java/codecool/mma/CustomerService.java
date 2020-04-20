@@ -1,41 +1,38 @@
 package codecool.mma;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class CustomerService {
-    Cart cart;
-    Order order;
-    User user;
-    Product product;
+    private Scanner scanner;
+    private ProductDAO productDAO;
+    private ProductController productController;
 
-    Scanner scanner = new Scanner(System.in);
+    public CustomerService(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+        this.scanner = new Scanner(System.in);
+        this.productController = new ProductController(productDAO);
+    }
 
+    public void showAllProducts() {
+        productController.viewAllProducts();
+    }
 
-
-    public void showAllProducts(ProductDAO productDAO){
-          ProductController productController = new ProductController();
-          productController.viewAllProducts(productDAO.getAllProducts());
-        }
-
-
-    public void getProductByID(ProductDAO productDAO){
+    public void getProductByID() {
         System.out.println("What product do you want see by ID?");
-
-
 
         int userInput = scanner.nextInt();
 
-        ProductController productController = new ProductController();
+        ProductController productController = new ProductController(productDAO);
         Product product = productDAO.readProductByID(userInput);
 
         productController.viewProduct(product);
 
         scanner.nextLine();
     }
-    public void addProductToCart(ProductDAO productDAO, Cart cart){
-        showAllProducts(productDAO);
+
+    public void addProductToCart(Cart cart) {
+        showAllProducts();
 
         System.out.println("What product do yo want to add (choose by Id)\n");
         int userInputID = scanner.nextInt();
@@ -49,35 +46,30 @@ public class CustomerService {
         scanner.nextLine();
 
         cart.addCartItemToCart(product, userInputQuantity);
-
     }
-    public void removeProductFromCart(ProductDAO productDAO, Cart cart){
+
+    public void removeProductFromCart(Cart cart) {
         CartController cartController = new CartController();
-
-
         cartController.checkCartSummary(cart); //show all items in Cart
 
         System.out.println("What product do yo want to remove (choose by Id)");
 
         int userInputID = scanner.nextInt(); //ask user to remove item
-
         Product product = productDAO.readProductByID(userInputID);
 
         System.out.println("How many of this product you want to remove?");
 
         int userInputQuantity = scanner.nextInt(); //ask user how many items
-
         cart.removeCartItemFromCart(product, userInputQuantity, cart); //remove item
-
-
-
     }
-    public void checkCartSummary(Cart cart){
+
+    public void checkCartSummary(Cart cart) {
         CartController cartController = new CartController();
         cartController.checkCartSummary(cart);
     }
-    public void updateCustomerEmail(){
-        UserController userController = new UserController();
+
+    public void updateCustomerEmail() {
+        UserJDBCDAO userJDBCDAO = new UserJDBCDAO();
 
         System.out.println("What is your ID?");
         int userInputID = scanner.nextInt();
@@ -86,13 +78,14 @@ public class CustomerService {
         System.out.println("What is your new email?");
         String userInputEmail = scanner.nextLine();
 
-        userController.updateUserEmail(userInputEmail, userInputID);
+        userJDBCDAO.updateUserEmail(userInputEmail, userInputID);
     }
-    public void customersOptions(ProductDAO productDAO){
+
+    public void customersOptions() {
         Cart cart = new Cart(false);
 
         boolean quit = false;
-        while(!quit) {
+        while (!quit) {
             System.out.println("\nEnter action: (6 to show available actions)");
             int action = scanner.nextInt();
             scanner.nextLine();
@@ -104,15 +97,15 @@ public class CustomerService {
                     break;
 
                 case 1:
-                    showAllProducts(productDAO);
+                    showAllProducts();
                     break;
 
                 case 2:
-                    addProductToCart(productDAO, cart);
+                    addProductToCart(cart);
                     break;
 
                 case 3:
-                    removeProductFromCart(productDAO, cart);
+                    removeProductFromCart(cart);
                     break;
 
                 case 4:
@@ -127,11 +120,10 @@ public class CustomerService {
                     printCustomersOptions();
                     break;
             }
-
         }
-
     }
-    public void printCustomersOptions(){
+
+    public void printCustomersOptions() {
         System.out.println("\nAvailable actions:\npress");
         System.out.println("0  - To end shopping, press 0.\n" +
                 "1  - To display all products, press 1.\n" +
